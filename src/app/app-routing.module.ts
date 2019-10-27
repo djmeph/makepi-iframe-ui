@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CreditSourceComponent } from './credit-source/credit-source.component';
+import { AuthGuardService as AuthGuard } from './auth-guard.service';
 
 
 const routes: Routes = [
-  { path: 'credit-source', component: CreditSourceComponent }
+  { path: 'credit-source', component: CreditSourceComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
