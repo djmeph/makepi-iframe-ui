@@ -26,9 +26,9 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## config.json
+## config.ts
 
-Before you can compile, you need to create a config file with configuration variables.
+Before you can compile, you need to create a typescript file with configuration variables.
 
 Sample config.ts
 
@@ -38,4 +38,31 @@ export const environment = {
   STRIPE_PUB_KEY: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxx",
   API_URI: 'http://localhost:3000'
 };
+```
+
+## iframe
+
+Here is a sample html file that you can use to invoke the iframe and return a value. Generate an auth token using the API and set the iframe src accordingly.
+
+```
+<html>
+<head>
+	<title>Checkout</title>
+</head>
+<body>
+	<h1>Checkout Page</h1>
+	<iframe id="iframe" width="600" height="600" src="http://localhost:4200" style="border:none;"></iframe>
+	<script>
+		window.onload = function () {
+			var iframe = document.getElementById('iframe');
+			iframe.contentWindow.postMessage({ token: `${generate.a.token.with.the.api}`, route: 'credit-source' }, '*');
+			window.addEventListener('message', function (event) {
+				console.log(event.data);
+				iframe.parentNode.removeChild(iframe);
+			});
+			return false;
+		}
+	</script>
+</body>
+</html>
 ```
