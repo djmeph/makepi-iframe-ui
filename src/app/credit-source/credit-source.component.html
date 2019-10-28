@@ -1,38 +1,41 @@
-<form [formGroup]="creditSourceForm" (ngSubmit)="getToken()">
-  <div class="form-group position-relative mt-2">
-    <h5>Card Number<span id="spn_require"></span></h5>
-    <div id="card-number"></div>
-    <div *ngIf="stripeCardNumberError" class="stripe-error">
-      <div>{{stripeCardNumberError}}</div>
+<div class="col-sm-12">
+  <form [formGroup]="creditSourceForm" (ngSubmit)="getToken()">
+    <div class="form-group position-relative mt-2">
+      <h5>Card Number<span id="spn_require"></span></h5>
+      <div id="card-number" class="form-control"></div>
+      <div *ngIf="stripeCardNumberError" class="stripe-error">
+        <div>{{stripeCardNumberError}}</div>
+      </div>
     </div>
-  </div>
-  <div class="pb-1 mb-2"></div>
-  <div class="form-group position-relative mt-2">
-    <h5>Card holder's name<span id="spn_require"></span></h5>
-    <input id="gd-r-cardHolderName" type="text" placeholder="Full name on your card"
-      formControlName="cardHolderName" class="form-control usgm-input" />
-  </div>
-  <div class="pb-1 mb-2"></div>
-  <div class="form-group position-relative mt-2">
-    <div class="row">
-      <div class="col-sx-6 col-lg-6 col-md-6 col-sm-6">
-        <div class="form-group position-relative mt-2">
-          <h5>Expired in</h5>
-          <div id="card-expiry"></div>
-          <div *ngIf="stripeCardExpiryError" class="stripe-error">
-            <div>{{stripeCardExpiryError}}</div>
+    <div class="pb-1 mb-2"></div>
+    <div class="form-group position-relative mt-2">
+      <h5>Card holder's name<span id="spn_require"></span></h5>
+      <input id="gd-r-cardHolderName" type="text" placeholder="Full name on your card"
+        formControlName="cardHolderName" class="form-control usgm-input" />
+    </div>
+    <div class="pb-1 mb-2"></div>
+    <div class="form-group position-relative mt-2">
+      <div class="row">
+        <div class="col-sx-6 col-lg-6 col-md-6 col-sm-6">
+          <div class="form-group position-relative mt-2">
+            <h5>Expires in</h5>
+            <div id="card-expiry" class="form-control"></div>
+            <div *ngIf="stripeCardExpiryError" class="stripe-error">
+              <div>{{stripeCardExpiryError}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sx-6 col-lg-6 col-md-6 col-sm-6">
+          <div class="form-group position-relative mt-2">
+            <h5>CW<span id="spn_require">*</span></h5>
+            <div id="card-cvc" class="form-control"></div>
+            <div *ngIf="stripeCardCvcError" class="stripe-error">
+              <div>{{stripeCardCvcError}}</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sx-6 col-lg-6 col-md-6 col-sm-6">
-        <div class="form-group position-relative mt-2">
-          <h5>CW<span id="spn_require">*</span></h5>
-          <div id="card-cvc"></div>
-          <div *ngIf="stripeCardCvcError" class="stripe-error">
-            <div>{{stripeCardCvcError}}</div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-</form>
+    <button type="submit" [disabled]="creditSourceForm.invalid" class="btn btn-default">Submit</button>
+  </form>
+</div>

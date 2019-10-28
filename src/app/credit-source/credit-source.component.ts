@@ -1,13 +1,14 @@
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'config';
+import { StripeCreditsService } from '../stripe-credits.service';
 
 @Component({
   selector: 'app-credit-source',
   templateUrl: './credit-source.component.html',
   styleUrls: ['./credit-source.component.scss']
 })
-export class CreditSourceComponent implements OnInit, AfterViewInit {
+export class CreditSourceComponent implements AfterViewInit {
 
   cardNumber: any;
   cardExpiry: any;
@@ -21,9 +22,12 @@ export class CreditSourceComponent implements OnInit, AfterViewInit {
 
   creditSourceForm = new FormGroup({
     cardHolderName: new FormControl()
-   });
+  });
 
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor(
+    private cd: ChangeDetectorRef,
+    private stripeCreditsService: StripeCreditsService
+  ) { }
 
   ngAfterViewInit() {
     this.stripe = Stripe(environment.STRIPE_PUB_KEY);
@@ -46,16 +50,14 @@ export class CreditSourceComponent implements OnInit, AfterViewInit {
     this.cd.detectChanges();
   }
 
-  ngOnInit() {
-  }
-
   async getToken() {
     const cardHolderName = this.creditSourceForm.get('cardHolderName').value;
     let response;
+    let result;
     try {
       response = await this.stripe.createToken(this.cardNumber, { name: cardHolderName });
-      this.stripeToken = response.token.id;
-      console.log(this.stripeToken)
+      result = await this.stripeCreditsService.create(response.token.id);
+      window.parent.postMessage(result, '*');
     } catch (err) {
       console.error(err);
     }

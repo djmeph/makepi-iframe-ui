@@ -28,12 +28,14 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## config.json
 
-The PUG compiler that creates index.html needs a config file to run, otherwise it will throw an error.
+Before you can compile, you need to create a config file with configuration variables.
 
-Sample config.json
+Sample config.ts
 
 ```
-{
-  "STRIPE_PUB_KEY": "pk_test_xxxxxxxxxxxxxxxxxxxxxxxx"
-}
+export const environment = {
+  production: false,
+  STRIPE_PUB_KEY: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxx",
+  API_URI: 'http://localhost:3000'
+};
 ```
