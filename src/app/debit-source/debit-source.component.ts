@@ -1,7 +1,8 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'config';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
+import { countries } from '../countries';
 
 @Component({
   selector: 'app-debit-source',
@@ -10,20 +11,59 @@ import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
 })
 export class DebitSourceComponent implements AfterViewInit {
 
+  debitSourceStatus = {} as any;
+
+  numericPattern = Validators.pattern('[0-9]*');
+  patternHolder = Validators.pattern('(individual|company)');
+  patternAlpha = Validators.pattern('[a-zA-Z]*');
+
   debitSourceForm = new FormGroup({
-    routingNumber: new FormControl(),
-    accountNumber: new FormControl(),
-    accountHolderName: new FormControl(),
-    accountHolderType: new FormControl(),
-    country: new FormControl(),
-    currency: new FormControl(),
+    accountHolderName: new FormControl(this.debitSourceStatus.accountHolderName, [
+      Validators.required,
+    ]),
+    routingNumber: new FormControl(this.debitSourceStatus.routingNumber, [
+      Validators.required,
+      Validators.minLength(9),
+      Validators.maxLength(9),
+      this.numericPattern,
+    ]),
+    accountNumber: new FormControl(this.debitSourceStatus.accountNumber, [
+      Validators.required,
+      Validators.minLength(1),
+      Validators.maxLength(16),
+      this.numericPattern,
+    ]),
+    accountHolderType: new FormControl(this.debitSourceStatus.accountHolderType, [
+      Validators.required,
+      this.patternHolder
+    ]),
+    country: new FormControl(this.debitSourceStatus.country, [
+      Validators.required,
+      Validators.min(2),
+      Validators.max(2),
+      this.patternAlpha,
+    ]),
+    currency: new FormControl(this.debitSourceStatus.currency, [
+      Validators.required,
+      Validators.min(3),
+      Validators.max(3),
+      this.patternAlpha,
+    ]),
   });
 
   stripe: any;
+  countries = countries;
+  countryListOpen = false;
 
   constructor(
-    private stripePaymentMethodsService: StripePaymentMethodsService
-  ) { }
+    private stripePaymentMethodsService: StripePaymentMethodsService,
+  ) {
+    this.debitSourceForm.patchValue({
+      currency: 'usd',
+      accountHolderType: 'individual',
+      country: 'US'
+    });
+  }
 
   ngAfterViewInit() {
     this.stripe = Stripe(environment.STRIPE_PUB_KEY);
@@ -47,7 +87,6 @@ export class DebitSourceComponent implements AfterViewInit {
         country,
         currency
       });
-      console.log(response.token.id)
       result = await this.stripePaymentMethodsService.create(response.token.id);
       window.parent.postMessage(result, '*');
     } catch (err) {
