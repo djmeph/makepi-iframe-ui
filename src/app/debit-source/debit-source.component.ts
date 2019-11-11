@@ -4,6 +4,15 @@ import { environment } from 'config';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
 import { countries } from '../countries';
 
+interface DebitSourceStatus {
+  accountHolderName: any;
+  routingNumber: any;
+  accountNumber: any;
+  accountHolderType: any;
+  country: any;
+  currency: any;
+}
+
 @Component({
   selector: 'app-debit-source',
   templateUrl: './debit-source.component.html',
@@ -11,7 +20,7 @@ import { countries } from '../countries';
 })
 export class DebitSourceComponent implements AfterViewInit {
 
-  debitSourceStatus = {} as any;
+  debitSourceStatus = {} as DebitSourceStatus;
 
   numericPattern = Validators.pattern('[0-9]*');
   patternHolder = Validators.pattern('(individual|company)');

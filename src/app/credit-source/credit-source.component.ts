@@ -3,6 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'config';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
 
+interface CreditSourceStatus {
+  accountHolderName: any;
+}
+
 @Component({
   selector: 'app-credit-source',
   templateUrl: './credit-source.component.html',
@@ -20,7 +24,7 @@ export class CreditSourceComponent implements AfterViewInit {
   stripeCardCvcError: any;
   stripe: any;
 
-  creditSourceStatus = {};
+  creditSourceStatus = {} as CreditSourceStatus;
 
   creditSourceForm = new FormGroup({
     cardHolderName: new FormControl(this.creditSourceStatus.accountHolderName, [
