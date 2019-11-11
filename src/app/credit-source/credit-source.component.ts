@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'config';
-import { StripeCreditsService } from '../stripe-credits.service';
+import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
 
 @Component({
   selector: 'app-credit-source',
@@ -26,7 +26,7 @@ export class CreditSourceComponent implements AfterViewInit {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private stripeCreditsService: StripeCreditsService
+    private stripePaymentMethodsService: StripePaymentMethodsService
   ) { }
 
   ngAfterViewInit() {
@@ -56,7 +56,7 @@ export class CreditSourceComponent implements AfterViewInit {
     let result;
     try {
       response = await this.stripe.createToken(this.cardNumber, { name: cardHolderName });
-      result = await this.stripeCreditsService.create(response.token.id);
+      result = await this.stripePaymentMethodsService.create(response.token.id);
       window.parent.postMessage(result, '*');
     } catch (err) {
       console.error(err);

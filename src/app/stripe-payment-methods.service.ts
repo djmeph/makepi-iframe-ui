@@ -5,7 +5,7 @@ import { GlobalService } from './global.service';
 @Injectable({
   providedIn: 'root'
 })
-export class StripeCreditsService {
+export class StripePaymentMethodsService {
 
   constructor(
     private globalService: GlobalService,
@@ -16,7 +16,7 @@ export class StripeCreditsService {
     return new Promise(async (resolve, reject) => {
       try {
         const response: any = await this.http
-          .post(`${this.globalService.uri}/stripe-credits`, { publicToken })
+          .post(`${this.globalService.uri}/stripe-payment-methods`, { publicToken })
           .toPromise();
         resolve(response);
       } catch (err) {

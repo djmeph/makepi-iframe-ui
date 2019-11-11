@@ -1,0 +1,35 @@
+<div class="col-sm-12">
+  <form [formGroup]="debitSourceForm" (ngSubmit)="getToken()">
+    <div class="form-group position-relative mt-2">
+      <h5>Routing Number<span id="spn_require"></span></h5>
+      <input id="gd-r-routingNumber" type="text"
+        formControlName="routingNumber" class="form-control usgm-input" />
+    </div>
+    <div class="form-group position-relative mt-2">
+      <h5>Account Number<span id="spn_require"></span></h5>
+      <input id="gd-r-accountNumber" type="text"
+        formControlName="accountNumber" class="form-control usgm-input" />
+    </div>
+    <div class="form-group position-relative mt-2">
+      <h5>Account Holder Name<span id="spn_require"></span></h5>
+      <input id="gd-r-accountHolderName" type="text"
+        formControlName="accountHolderName" class="form-control usgm-input" />
+    </div>
+    <div class="form-group position-relative mt-2">
+      <h5>Account Type<span id="spn_require"></span></h5>
+      <input id="gd-r-accountHolderName" type="text"
+        formControlName="accountHolderType" class="form-control usgm-input" />
+    </div>
+    <div class="form-group position-relative mt-2">
+      <h5>Country<span id="spn_require"></span></h5>
+      <input id="gd-r-country" type="text"
+        formControlName="country" class="form-control usgm-input" />
+    </div>
+    <div class="form-group position-relative mt-2">
+      <h5>Currency<span id="spn_require"></span></h5>
+      <input id="gd-r-currency" type="text"
+        formControlName="currency" class="form-control usgm-input" />
+    </div>
+    <button type="submit" [disabled]="debitSourceForm.invalid" class="btn btn-default">Submit</button>
+  </form>
+</div>

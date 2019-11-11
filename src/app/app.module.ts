@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreditSourceComponent } from './credit-source/credit-source.component';
 import { HttpInterceptorService } from './http-interceptor.service';
+import { DebitSourceComponent } from './debit-source/debit-source.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreditSourceComponent
+    CreditSourceComponent,
+    DebitSourceComponent
   ],
   imports: [
     BrowserModule,
