@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'config';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
 
@@ -20,8 +20,12 @@ export class CreditSourceComponent implements AfterViewInit {
   stripeCardCvcError: any;
   stripe: any;
 
+  creditSourceStatus = {};
+
   creditSourceForm = new FormGroup({
-    cardHolderName: new FormControl()
+    cardHolderName: new FormControl(this.creditSourceStatus.accountHolderName, [
+      Validators.required,
+    ])
   });
 
   constructor(
