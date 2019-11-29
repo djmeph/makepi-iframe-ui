@@ -1,3 +1,14 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <button (click)="switchTab(pages.checkout)" class="nav-link">Checkout</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link active">Credit Card</button>
+  </li>
+  <li class="nav-item">
+    <button (click)="switchTab(pages.debit)" class="nav-link">Checking Account</button>
+  </li>
+</ul>
 <div class="col-sm-12">
   <form [formGroup]="creditSourceForm" (ngSubmit)="getToken()">
     <div class="form-group position-relative mt-2">
@@ -36,6 +47,9 @@
         </div>
       </div>
     </div>
-    <button type="submit" [disabled]="creditSourceForm.invalid" class="btn btn-default">Submit</button>
+    <button *ngIf="!loading" type="submit" [disabled]="creditSourceForm.invalid" class="btn btn-default">Submit</button>
+    <div *ngIf="loading" class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
   </form>
 </div>

@@ -1,8 +1,10 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { environment } from 'config';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
 import { countries } from '../countries';
+import { Pages } from '../models/pages';
 
 interface DebitSourceStatus {
   accountHolderName: any;
@@ -19,6 +21,8 @@ interface DebitSourceStatus {
   styleUrls: ['./debit-source.component.scss']
 })
 export class DebitSourceComponent implements AfterViewInit {
+
+  pages = Pages;
 
   debitSourceStatus = {} as DebitSourceStatus;
 
@@ -64,8 +68,11 @@ export class DebitSourceComponent implements AfterViewInit {
   countries = countries;
   countryListOpen = false;
 
+  loading: boolean;
+
   constructor(
     private stripePaymentMethodsService: StripePaymentMethodsService,
+    private router: Router,
   ) {
     this.debitSourceForm.patchValue({
       currency: 'usd',
@@ -75,10 +82,13 @@ export class DebitSourceComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.loading = false;
     this.stripe = Stripe(environment.STRIPE_PUB_KEY);
   }
 
   async getToken() {
+    if (this.loading) return;
+    this.loading = true;
     const routingNumber = this.debitSourceForm.get('routingNumber').value;
     const accountNumber = this.debitSourceForm.get('accountNumber').value;
     const accountHolderName = this.debitSourceForm.get('accountHolderName').value;
@@ -97,10 +107,15 @@ export class DebitSourceComponent implements AfterViewInit {
         currency
       });
       result = await this.stripePaymentMethodsService.create(response.token.id);
-      window.parent.postMessage(result, '*');
+      this.router.navigate(['/checkout']);
     } catch (err) {
+      this.loading = false;
       console.error(err);
     }
+  }
+
+  switchTab(view: string) {
+    this.router.navigate([view]);
   }
 
 }

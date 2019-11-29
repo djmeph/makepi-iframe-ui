@@ -1,0 +1,38 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <button class="nav-link active">Checkout</button>
+  </li>
+  <li class="nav-item">
+    <button (click)="switchTab(pages.credit)" class="nav-link">Credit Card</button>
+  </li>
+  <li class="nav-item">
+    <button (click)="switchTab(pages.debit)" class="nav-link">Checking Account</button>
+  </li>
+</ul>
+<form [formGroup]="checkoutForm" (ngSubmit)="checkout()">
+  <ul class="list-group">
+    <li *ngFor="let stripePaymentMethod of stripePaymentMethods.myPaymentMethods" class="list-group-item">
+      <input type="radio" formControlName="stripePaymentMethodId" value="{{stripePaymentMethod.stripePaymentMethodId}}" />
+      <a (click)="setPaymentMethod(stripePaymentMethod.stripePaymentMethodId)">
+          {{ stripePaymentMethod.source.bank_name }}{{ stripePaymentMethod.source.brand}} {{stripePaymentMethod.source.funding}} {{ stripePaymentMethod.source.last4 }}
+      </a>
+    </li>
+    <li class="list-group-item">
+      <input type="radio" formControlName="stripePaymentMethodId" value="cash" />
+      <a (click)="setPaymentMethod('cash')">
+        Cash / Check
+      </a>
+    </li>
+    <li class="list-group-item">
+      <button (click)="switchTab(pages.debit)" class="nav-link">
+        <i class="fa fa-plus"></i> Add Checking Account
+      </button>
+    </li>
+    <li class="list-group-item">
+      <button (click)="switchTab(pages.credit)" class="nav-link">
+        <i class="fa fa-plus"></i> Add Credit Card
+      </button>
+    </li>
+  </ul>
+</form>
+

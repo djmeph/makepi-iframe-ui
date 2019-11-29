@@ -1,7 +1,9 @@
 import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { environment } from 'config';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
+import { Pages } from '../models/pages';
 
 interface CreditSourceStatus {
   accountHolderName: any;
@@ -13,6 +15,8 @@ interface CreditSourceStatus {
   styleUrls: ['./credit-source.component.scss']
 })
 export class CreditSourceComponent implements AfterViewInit {
+
+  pages = Pages;
 
   cardNumber: any;
   cardExpiry: any;
@@ -32,12 +36,16 @@ export class CreditSourceComponent implements AfterViewInit {
     ])
   });
 
+  loading: boolean;
+
   constructor(
     private cd: ChangeDetectorRef,
-    private stripePaymentMethodsService: StripePaymentMethodsService
+    private stripePaymentMethodsService: StripePaymentMethodsService,
+    private router: Router,
   ) { }
 
   ngAfterViewInit() {
+    this.loading = false;
     this.stripe = Stripe(environment.STRIPE_PUB_KEY);
     const elements = this.stripe.elements();
     this.cardNumber = elements.create('cardNumber');
@@ -59,16 +67,24 @@ export class CreditSourceComponent implements AfterViewInit {
   }
 
   async getToken() {
+    if (this.loading) return;
+    this.loading = true;
     const cardHolderName = this.creditSourceForm.get('cardHolderName').value;
     let response;
     let result;
     try {
       response = await this.stripe.createToken(this.cardNumber, { name: cardHolderName });
       result = await this.stripePaymentMethodsService.create(response.token.id);
-      window.parent.postMessage(result, '*');
+      this.router.navigate(['/checkout']);
+      this.loading = false;
     } catch (err) {
+      this.loading = false;
       console.error(err);
     }
+  }
+
+  switchTab(view: string) {
+    this.router.navigate([view]);
   }
 
 }

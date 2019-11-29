@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { CreditSourceComponent } from './credit-source/credit-source.component';
 import { HttpInterceptorService } from './http-interceptor.service';
 import { DebitSourceComponent } from './debit-source/debit-source.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CreditSourceComponent,
-    DebitSourceComponent
+    DebitSourceComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
