@@ -2,10 +2,14 @@ import { Component, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
+import { PlansService } from '../plans.service';
+import { SubscriptionsService } from '../subscriptions.service';
 import { Pages } from '../models/pages';
 
 interface CheckoutStatus {
   stripePaymentMethodId: any;
+  planId: any;
+  versionNumber: any;
 }
 
 @Component({
@@ -15,6 +19,8 @@ interface CheckoutStatus {
 })
 export class CheckoutComponent implements AfterViewInit {
 
+  loading = false;
+
   pages = Pages;
 
   checkoutStatus = {} as CheckoutStatus;
@@ -22,18 +28,29 @@ export class CheckoutComponent implements AfterViewInit {
   checkoutForm = new FormGroup({
     stripePaymentMethodId: new FormControl(this.checkoutStatus.stripePaymentMethodId, [
       Validators.required,
-    ])
+    ]),
+    planId: new FormControl(this.checkoutStatus.planId, [
+      Validators.required
+    ]),
+    versionNumber: new FormControl(this.checkoutStatus.versionNumber, [
+      Validators.required
+    ]),
   });
+
+  latestPlans = [];
 
   constructor(
     public stripePaymentMethods: StripePaymentMethodsService,
+    private plans: PlansService,
+    private subscriptions: SubscriptionsService,
     private router: Router,
   ) {}
 
   async ngAfterViewInit() {
+    this.loading = false;
     try {
       this.stripePaymentMethods.myPaymentMethods = await this.stripePaymentMethods.getAll();
-      console.log(this.stripePaymentMethods.myPaymentMethods)
+      this.latestPlans = await this.plans.plansLatestGet();
     } catch (err) {
       console.error(err);
     }
@@ -44,15 +61,29 @@ export class CheckoutComponent implements AfterViewInit {
   }
 
   setPaymentMethod(stripePaymentMethodId: string) {
-    console.log(stripePaymentMethodId)
-    if (this.checkoutForm.get('stripePaymentMethodId').value === stripePaymentMethodId) {
-      return this.checkoutForm.patchValue({ stripePaymentMethodId: null })
-    }
-    this.checkoutForm.patchValue({
-      stripePaymentMethodId
-    });
+    if (this.checkoutForm.get('stripePaymentMethodId').value === stripePaymentMethodId) return;
+    this.checkoutForm.patchValue({ stripePaymentMethodId });
   }
-1
-  async checkout() {}
 
+  setPlan(planId: string, versionNumber: number) {
+    if (this.checkoutForm.get('planId').value === planId) return;
+    this.checkoutForm.patchValue({ planId });
+    this.checkoutForm.patchValue({ versionNumber });
+  }
+
+  async checkout() {
+    if (this.loading) return;
+    this.loading = true;
+    const { value: stripePaymentMethodId } = this.checkoutForm.get('stripePaymentMethodId');
+    const { value: planId } = this.checkoutForm.get('planId');
+    const { value: versionNumber } = this.checkoutForm.get('versionNumber');
+    try {
+      await this.subscriptions.upsert(stripePaymentMethodId, versionNumber, planId);
+      window.parent.postMessage('success', '*');
+      this.loading = false;
+    } catch (err) {
+      console.error(err);
+      this.loading = false;
+    }
+  }
 }
