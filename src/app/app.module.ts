@@ -9,25 +9,27 @@ import { CreditSourceComponent } from './credit-source/credit-source.component';
 import { HttpInterceptorService } from './http-interceptor.service';
 import { DebitSourceComponent } from './debit-source/debit-source.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { MembershipInfoComponent } from './membership-info/membership-info.component';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CreditSourceComponent,
-    DebitSourceComponent,
-    CheckoutComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        CreditSourceComponent,
+        DebitSourceComponent,
+        CheckoutComponent,
+        MembershipInfoComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule
+    ],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,48 +1,51 @@
 <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <button (click)="switchTab(pages.checkout)" class="nav-link">Checkout</button>
-  </li>
-  <li class="nav-item">
-    <button (click)="switchTab(pages.credit)" class="nav-link">Credit Card</button>
-  </li>
-  <li class="nav-item">
-    <button class="nav-link active">Checking Account</button>
-  </li>
+    <li class="nav-item">
+        <button (click)="switchTab(pages.membershipInfo)" class="nav-link">Membership</button>
+    </li>
+    <li class="nav-item">
+        <button (click)="switchTab(pages.checkout)" class="nav-link">Checkout</button>
+    </li>
+    <li class="nav-item">
+        <button (click)="switchTab(pages.credit)" class="nav-link">Credit Card</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link active">Checking Account</button>
+    </li>
 </ul>
 <div class="col-sm-12">
-  <form [formGroup]="debitSourceForm" (ngSubmit)="getToken()">
-    <div class="form-group position-relative mt-2">
-      <h5>Account Holder Name</h5>
-      <input type="text" formControlName="accountHolderName" class="form-control usgm-input" />
-    </div>
-    <div class="form-group position-relative mt-2">
-      <h5>Routing Number</h5>
-      <input type="text" formControlName="routingNumber" class="form-control usgm-input" />
-    </div>
-    <div class="form-group position-relative mt-2">
-      <h5>Account Number</h5>
-      <input type="text" formControlName="accountNumber" class="form-control usgm-input" />
-    </div>
-    <div class="form-group position-relative mt-2">
-      <h5>Account Type</h5>
-        <label class="md-check" class="form-control">
-          <input type="radio" value="individual" formControlName="accountHolderType">
-          Individual
-        </label>
-        <label class="md-check" class="form-control">
-          <input type="radio" value="company" formControlName="accountHolderType">
-          Company
-        </label>
-    </div>
-    <div class="form-group position-relative mt-2">
-      <h5>Country</h5>
-      <select formControlName="country"  class="form-control">
-        <option *ngFor="let country of countries" value="{{country.code}}">{{country.name}}</option>
-      </select>
-    </div>
-    <button *ngIf="!loading" type="submit" [disabled]="debitSourceForm.invalid" class="btn btn-default">Submit</button>
-    <div *ngIf="loading" class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
-  </form>
+    <form [formGroup]="debitSourceForm" (ngSubmit)="getToken()">
+        <div class="form-group position-relative mt-2">
+            <h5>Account Holder Name</h5>
+            <input type="text" formControlName="accountHolderName" class="form-control usgm-input" />
+        </div>
+        <div class="form-group position-relative mt-2">
+            <h5>Routing Number</h5>
+            <input type="text" formControlName="routingNumber" class="form-control usgm-input" />
+        </div>
+        <div class="form-group position-relative mt-2">
+            <h5>Account Number</h5>
+            <input type="text" formControlName="accountNumber" class="form-control usgm-input" />
+        </div>
+        <div class="form-group position-relative mt-2">
+            <h5>Account Type</h5>
+            <label class="md-check" class="form-control">
+                <input type="radio" value="individual" formControlName="accountHolderType">
+                Individual
+            </label>
+            <label class="md-check" class="form-control">
+                <input type="radio" value="company" formControlName="accountHolderType">
+                Company
+            </label>
+        </div>
+        <div class="form-group position-relative mt-2">
+            <h5>Country</h5>
+            <select formControlName="country"  class="form-control">
+                <option *ngFor="let country of countries" value="{{country.code}}">{{country.name}}</option>
+            </select>
+        </div>
+        <button *ngIf="!loading" type="submit" [disabled]="debitSourceForm.invalid" class="btn btn-default">Submit</button>
+        <div *ngIf="loading" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </form>
 </div>
