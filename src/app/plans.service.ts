@@ -12,10 +12,15 @@ export class PlansService {
         private http: HttpClient,
     ) {}
 
-    public async plansLatestGet() {
-        const response: any = await this.http
+    public plansLatestGet() {
+        return this.http
         .get(`${this.globalService.uri}/plans/latest`)
         .toPromise();
-        return response;
+    }
+
+    public getPlan(planId: string, versionNumber: number) {
+        return this.http
+        .get(`${this.globalService.uri}/plans/${planId}/${versionNumber}`)
+        .toPromise();
     }
 }

@@ -14,18 +14,22 @@ export class StripePaymentMethodsService {
         private http: HttpClient,
     ) {}
 
-    public async create(publicToken): Promise<any> {
-        const response: any = await this.http
+    public create(publicToken): Promise<any> {
+        return this.http
         .post(`${this.globalService.uri}/stripe-payment-methods`, { publicToken })
         .toPromise();
-        return response;
     }
 
-    public async getAll(): Promise<any> {
-        const reponse: any = await this.http
+    public getAll(): Promise<any> {
+        return this.http
         .get(`${this.globalService.uri}/stripe-payment-methods`)
         .toPromise();
-        return reponse;
+    }
+
+    public get(key: string): Promise<any> {
+        return this.http
+        .get(`${this.globalService.uri}/stripe-payment-methods/${key}`)
+        .toPromise();
     }
 
 }

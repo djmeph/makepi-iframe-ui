@@ -12,13 +12,18 @@ export class SubscriptionsService {
         private http: HttpClient,
     ) {}
 
-    public async upsert(planId: string, versionNumber: number, stripePaymentMethodId: string) {
-        const response: any = await this.http
+    public upsert(stripePaymentMethodId: string, planId: string, versionNumber: number) {
+        return this.http
         .post(`${this.globalService.uri}/subscriptions`, {
             plan: { planId, versionNumber },
             stripePaymentMethodId
         })
         .toPromise();
-        return response;
+    }
+
+    public getLatest() {
+        return this.http
+        .get(`${this.globalService.uri}/subscriptions/latest`)
+        .toPromise();
     }
 }
