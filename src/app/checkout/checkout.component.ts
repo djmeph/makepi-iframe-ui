@@ -21,6 +21,7 @@ interface CheckoutStatus {
 export class CheckoutComponent implements AfterViewInit {
 
     loading = false;
+    initializing = false;
 
     pages = Pages;
 
@@ -50,6 +51,7 @@ export class CheckoutComponent implements AfterViewInit {
 
     async ngAfterViewInit() {
         this.loading = false;
+        this.initializing = true;
         try {
             this.membership = await this.subscriptionsService.getLatest();
             this.stripePaymentMethods.myPaymentMethods = await this.stripePaymentMethods.getAll();
@@ -65,8 +67,10 @@ export class CheckoutComponent implements AfterViewInit {
                     this.checkoutForm.patchValue({ versionNumber: selectedPlan.versionNumber });
                 }
             }
+            this.initializing = false;
         } catch (err) {
             console.error(err);
+            this.initializing = false;
         }
     }
 

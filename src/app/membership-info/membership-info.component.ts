@@ -12,6 +12,7 @@ export class MembershipInfoComponent implements AfterViewInit {
 
     pages = Pages;
     membership: any;
+    loading = false;
 
     constructor(
         private router: Router,
@@ -19,7 +20,9 @@ export class MembershipInfoComponent implements AfterViewInit {
     ) { }
 
     async ngAfterViewInit() {
+        this.loading = true;
         this.membership = await this.membershipInfoService.getMembershipInfo();
+        this.loading = false;
     }
 
     switchTab(view: string) {

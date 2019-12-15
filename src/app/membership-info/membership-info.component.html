@@ -12,25 +12,30 @@
         <button (click)="switchTab(pages.debit)" class="nav-link">Checking Account</button>
     </li>
 </ul>
-<div *ngIf="membership">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Payment Method</h5>
-            {{ membership.stripePaymentMethod.source.bank_name }}{{ membership.stripePaymentMethod.source.brand }} {{ membership.stripePaymentMethod.source.funding }} {{ membership.stripePaymentMethod.source.last4 }}
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Membership Plan</h5>
-            {{ membership.plan.name }}
-        </div>
-    </div>
+<div *ngIf="loading" class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
 </div>
-<div *ngIf="!membership">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">No Membership Selected</h5>
+<div *ngIf="!loading">
+    <div *ngIf="membership">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Payment Method</h5>
+                {{ membership.stripePaymentMethod.source.bank_name }}{{ membership.stripePaymentMethod.source.brand }} {{ membership.stripePaymentMethod.source.funding }} {{ membership.stripePaymentMethod.source.last4 }}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Membership Plan</h5>
+                {{ membership.plan.name }}
+            </div>
         </div>
     </div>
+    <div *ngIf="!membership">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">No Membership Selected</h5>
+            </div>
+        </div>
+    </div>
+    <button (click)="switchTab(pages.checkout)" class="btn btn-default">Checkout</button>
 </div>
-<button (click)="switchTab(pages.checkout)" class="btn btn-default">Checkout</button>
