@@ -57,11 +57,15 @@ export class CheckoutComponent implements AfterViewInit {
             this.stripePaymentMethods.myPaymentMethods = await this.stripePaymentMethods.getAll();
             this.latestPlans = await this.plans.plansLatestGet() as any;
             if (this.membership) {
-                const [selectedPaymentMethod] = _.filter(this.stripePaymentMethods.myPaymentMethods, { stripePaymentMethodId: this.membership.stripePaymentMethodId });
+                const [selectedPaymentMethod] = _.filter(this.stripePaymentMethods.myPaymentMethods, {
+                    stripePaymentMethodId: this.membership.stripePaymentMethodId
+                });
                 if (selectedPaymentMethod) {
                     this.checkoutForm.patchValue({ stripePaymentMethodId: selectedPaymentMethod.stripePaymentMethodId });
                 }
-                const [selectedPlan] = _.filter(this.latestPlans, { planId: this.membership.plan.planId, versionNumber: this.membership.plan.versionNumber  });
+                const [selectedPlan] = _.filter(this.latestPlans, {
+                    planId: this.membership.plan.planId, versionNumber: this.membership.plan.versionNumber
+                });
                 if (selectedPlan) {
                     this.checkoutForm.patchValue({ planId: selectedPlan.planId });
                     this.checkoutForm.patchValue({ versionNumber: selectedPlan.versionNumber });

@@ -1,3 +1,4 @@
+/* tslint:disable */
 export class TokenDecoded {
     auth_time: number;
     client_id: string;
