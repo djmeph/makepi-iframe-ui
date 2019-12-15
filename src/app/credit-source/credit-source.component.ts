@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'config';
@@ -14,7 +14,7 @@ interface CreditSourceStatus {
     templateUrl: './credit-source.component.html',
     styleUrls: ['./credit-source.component.scss']
 })
-export class CreditSourceComponent implements AfterViewInit {
+export class CreditSourceComponent implements AfterViewInit, OnInit {
 
     pages = Pages;
 
@@ -43,6 +43,10 @@ export class CreditSourceComponent implements AfterViewInit {
         private stripePaymentMethodsService: StripePaymentMethodsService,
         private router: Router,
     ) { }
+
+    ngOnInit() {
+        this.loading = false;
+    }
 
     ngAfterViewInit() {
         this.loading = false;

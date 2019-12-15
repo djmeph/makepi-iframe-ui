@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MembershipInfoService } from '../membership-info.service';
 import { Pages } from '../models/pages';
@@ -8,7 +8,7 @@ import { Pages } from '../models/pages';
     templateUrl: './membership-info.component.html',
     styleUrls: ['./membership-info.component.scss']
 })
-export class MembershipInfoComponent implements AfterViewInit {
+export class MembershipInfoComponent implements AfterViewInit, OnInit {
 
     pages = Pages;
     membership: any;
@@ -18,6 +18,10 @@ export class MembershipInfoComponent implements AfterViewInit {
         private router: Router,
         private membershipInfoService: MembershipInfoService,
     ) { }
+
+    ngOnInit() {
+        this.loading = true;
+    }
 
     async ngAfterViewInit() {
         this.loading = true;

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
@@ -18,7 +18,7 @@ interface CheckoutStatus {
     templateUrl: './checkout.component.html',
     styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements AfterViewInit {
+export class CheckoutComponent implements AfterViewInit, OnInit {
 
     loading = false;
     initializing = false;
@@ -48,6 +48,11 @@ export class CheckoutComponent implements AfterViewInit {
         private subscriptionsService: SubscriptionsService,
         private router: Router,
     ) {}
+
+    ngOnInit() {
+        this.loading = false;
+        this.initializing = true;
+    }
 
     async ngAfterViewInit() {
         this.loading = false;

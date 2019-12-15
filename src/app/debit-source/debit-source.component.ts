@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'config';
@@ -20,7 +20,7 @@ interface DebitSourceStatus {
     templateUrl: './debit-source.component.html',
     styleUrls: ['./debit-source.component.scss']
 })
-export class DebitSourceComponent implements AfterViewInit {
+export class DebitSourceComponent implements AfterViewInit, OnInit {
 
     pages = Pages;
 
@@ -79,6 +79,10 @@ export class DebitSourceComponent implements AfterViewInit {
             accountHolderType: 'individual',
             country: 'US'
         });
+    }
+
+    ngOnInit() {
+        this.loading = false;
     }
 
     ngAfterViewInit() {

@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs mb-1">
     <li class="nav-item">
         <button (click)="switchTab(pages.membershipInfo)" class="nav-link">Membership</button>
     </li>
@@ -17,7 +17,7 @@
 </div>
 <div *ngIf="!initializing">
     <form [formGroup]="checkoutForm" (ngSubmit)="checkout()">
-        <div class="card">
+        <div class="card mb-1">
             <div class="card-body">
                 <h5 class="card-title">Payment Method</h5>
                 <ul class="list-group">
@@ -46,7 +46,7 @@
                 </ul>
             </div>
         </div>
-        <div class="card">
+        <div class="card mb-1">
             <div class="card-body">
                 <h5 class="card-title">Payment Plan</h5>
                 <ul class="list-group">
@@ -59,9 +59,11 @@
                 </ul>
             </div>
         </div>
-        <button *ngIf="!loading" type="submit" [disabled]="checkoutForm.invalid" class="btn btn-default">Submit</button>
-        <div *ngIf="loading" class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
+        <div>
+            <button *ngIf="!loading" type="submit" [disabled]="checkoutForm.invalid" class="btn btn-light">Submit</button>
+            <div *ngIf="loading" class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
     </form>
 </div>
