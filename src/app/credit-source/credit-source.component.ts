@@ -67,7 +67,7 @@ export class CreditSourceComponent implements AfterViewInit {
     }
 
     async getToken() {
-        if (this.loading) return;
+        if (this.loading) { return; }
         this.loading = true;
         const cardHolderName = this.creditSourceForm.get('cardHolderName').value;
         let response;

@@ -61,18 +61,18 @@ export class CheckoutComponent implements AfterViewInit {
     }
 
     setPaymentMethod(stripePaymentMethodId: string) {
-        if (this.checkoutForm.get('stripePaymentMethodId').value === stripePaymentMethodId) return;
+        if (this.checkoutForm.get('stripePaymentMethodId').value === stripePaymentMethodId) { return; }
         this.checkoutForm.patchValue({ stripePaymentMethodId });
     }
 
     setPlan(planId: string, versionNumber: number) {
-        if (this.checkoutForm.get('planId').value === planId) return;
+        if (this.checkoutForm.get('planId').value === planId) { return; }
         this.checkoutForm.patchValue({ planId });
         this.checkoutForm.patchValue({ versionNumber });
     }
 
     async checkout() {
-        if (this.loading) return;
+        if (this.loading) { return; }
         this.loading = true;
         const { value: stripePaymentMethodId } = this.checkoutForm.get('stripePaymentMethodId');
         const { value: planId } = this.checkoutForm.get('planId');

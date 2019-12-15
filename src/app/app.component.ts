@@ -14,9 +14,9 @@ export class AppComponent {
         private router: Router
     ) {
         if (window.addEventListener) {
-            window.addEventListener("message", this.receiveMessage.bind(this), false);
+            window.addEventListener('message', this.receiveMessage.bind(this), false);
         } else {
-            (<any>window).attachEvent("onmessage", this.receiveMessage.bind(this));
+            (window as any).attachEvent('onmessage', this.receiveMessage.bind(this));
         }
     }
 
@@ -24,8 +24,8 @@ export class AppComponent {
         let data;
         try {
             data = event.data === 'string' ? JSON.parse(event.data) : event.data;
-            if (data.token) this.userService.jwtToken = data.token;
-            if (data.route) this.router.navigate([data.route]);
+            if (data.token) { this.userService.jwtToken = data.token; }
+            if (data.route) { this.router.navigate([data.route]); }
         } catch (err) {}
     }
 

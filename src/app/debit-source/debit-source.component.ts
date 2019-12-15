@@ -87,7 +87,7 @@ export class DebitSourceComponent implements AfterViewInit {
     }
 
     async getToken() {
-        if (this.loading) return;
+        if (this.loading) { return; }
         this.loading = true;
         const routingNumber = this.debitSourceForm.get('routingNumber').value;
         const accountNumber = this.debitSourceForm.get('accountNumber').value;

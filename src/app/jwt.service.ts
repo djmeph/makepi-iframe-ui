@@ -17,12 +17,12 @@ export class JwtService {
     ) { }
 
     public async isAuthenticated() {
-        let token = this.userService.jwtToken;
-        if (!token) return false;
-        let decodedToken = helper.decodeToken(`${token}`) as TokenDecoded;
-        let exp = moment.unix(decodedToken.exp);
-        let isTokenExpired = moment().isAfter(exp);
-        if (isTokenExpired) return false;
+        const token = this.userService.jwtToken;
+        if (!token) { return false; }
+        const decodedToken = helper.decodeToken(`${token}`) as TokenDecoded;
+        const exp = moment.unix(decodedToken.exp);
+        const isTokenExpired = moment().isAfter(exp);
+        if (isTokenExpired) { return false; }
         return !isTokenExpired;
     }
 }
