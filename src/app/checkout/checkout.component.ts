@@ -57,29 +57,41 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
     async ngAfterViewInit() {
         this.loading = false;
         this.initializing = true;
+
         try {
             this.membership = await this.subscriptionsService.getLatest();
+        } catch (err) {
+            console.error(err);
+        }
+
+        try {
             this.stripePaymentMethods.myPaymentMethods = await this.stripePaymentMethods.getAll();
+        } catch (err) {
+            console.error(err);
+        }
+
+        try {
             this.latestPlans = await this.plans.plansLatestGet() as any;
-            if (this.membership) {
-                const [selectedPaymentMethod] = _.filter(this.stripePaymentMethods.myPaymentMethods, {
-                    stripePaymentMethodId: this.membership.stripePaymentMethodId
-                });
-                if (selectedPaymentMethod) {
-                    this.checkoutForm.patchValue({ stripePaymentMethodId: selectedPaymentMethod.stripePaymentMethodId });
-                }
-                const [selectedPlan] = _.filter(this.latestPlans, {
-                    planId: this.membership.plan.planId, versionNumber: this.membership.plan.versionNumber
-                });
-                if (selectedPlan) {
-                    this.checkoutForm.patchValue({ planId: selectedPlan.planId });
-                    this.checkoutForm.patchValue({ versionNumber: selectedPlan.versionNumber });
-                }
-            }
             this.initializing = false;
         } catch (err) {
             console.error(err);
             this.initializing = false;
+        }
+
+        if (this.membership) {
+            const [selectedPaymentMethod] = _.filter(this.stripePaymentMethods.myPaymentMethods, {
+                stripePaymentMethodId: this.membership.stripePaymentMethodId
+            });
+            if (selectedPaymentMethod) {
+                this.checkoutForm.patchValue({ stripePaymentMethodId: selectedPaymentMethod.stripePaymentMethodId });
+            }
+            const [selectedPlan] = _.filter(this.latestPlans, {
+                planId: this.membership.plan.planId, versionNumber: this.membership.plan.versionNumber
+            });
+            if (selectedPlan) {
+                this.checkoutForm.patchValue({ planId: selectedPlan.planId });
+                this.checkoutForm.patchValue({ versionNumber: selectedPlan.versionNumber });
+            }
         }
     }
 
