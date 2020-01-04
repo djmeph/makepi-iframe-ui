@@ -26,6 +26,7 @@ export class MembershipInfoComponent implements AfterViewInit, OnInit {
     async ngAfterViewInit() {
         this.loading = true;
         this.membership = await this.membershipInfoService.getMembershipInfo();
+        console.log(this.membership)
         this.loading = false;
     }
 

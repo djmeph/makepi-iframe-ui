@@ -29,6 +29,12 @@
                 {{ membership.plan.name }}
             </div>
         </div>
+        <div class="card mb-1">
+            <div class="card-body">
+                <h5 class="card-title">Billing Day of Month</h5>
+                {{ membership.paymentDay }}
+            </div>
+        </div>
     </div>
     <div *ngIf="!membership" class="mb-1">
         <div class="card">

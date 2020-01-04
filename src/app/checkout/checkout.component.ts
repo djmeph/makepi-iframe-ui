@@ -11,6 +11,7 @@ interface CheckoutStatus {
     stripePaymentMethodId: any;
     planId: any;
     versionNumber: any;
+    paymentDay: any;
 }
 
 @Component({
@@ -37,6 +38,11 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         versionNumber: new FormControl(this.checkoutStatus.versionNumber, [
             Validators.required
         ]),
+        paymentDay: new FormControl(this.checkoutStatus.paymentDay, [
+            Validators.required,
+            Validators.min(1),
+            Validators.max(28)
+        ])
     });
 
     latestPlans = [];
@@ -92,6 +98,9 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
                 this.checkoutForm.patchValue({ planId: selectedPlan.planId });
                 this.checkoutForm.patchValue({ versionNumber: selectedPlan.versionNumber });
             }
+            if (this.membership.paymentDay) {
+                this.checkoutForm.patchValue({ paymentDay: this.membership.paymentDay });
+            }
         }
     }
 
@@ -116,8 +125,9 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         const { value: stripePaymentMethodId } = this.checkoutForm.get('stripePaymentMethodId');
         const { value: planId } = this.checkoutForm.get('planId');
         const { value: versionNumber } = this.checkoutForm.get('versionNumber');
+        const { value: paymentDay } = this.checkoutForm.get('paymentDay');
         try {
-            await this.subscriptionsService.upsert(stripePaymentMethodId, planId, versionNumber);
+            await this.subscriptionsService.upsert(stripePaymentMethodId, planId, versionNumber, paymentDay);
             this.router.navigate(['/membership-info']);
             this.loading = false;
         } catch (err) {

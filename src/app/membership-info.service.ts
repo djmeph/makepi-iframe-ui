@@ -26,6 +26,7 @@ export class MembershipInfoService {
             stripePaymentMethod = await this.stripePaymentMethodsService.get(subscription.stripePaymentMethodId);
             payload.plan = plan;
             payload.stripePaymentMethod = stripePaymentMethod;
+            payload.paymentDay = subscription.paymentDay;
             return payload;
         } catch (err) {
             return null;
