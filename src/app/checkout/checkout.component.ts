@@ -85,11 +85,15 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         }
 
         if (this.membership) {
-            const [selectedPaymentMethod] = _.filter(this.stripePaymentMethods.myPaymentMethods, {
-                stripePaymentMethodId: this.membership.stripePaymentMethodId
-            });
-            if (selectedPaymentMethod) {
-                this.checkoutForm.patchValue({ stripePaymentMethodId: selectedPaymentMethod.stripePaymentMethodId });
+            if (this.membership.stripePaymentMethodId === 'cash') {
+                this.checkoutForm.patchValue({ stripePaymentMethodId: 'cash' });
+            } else {
+                const [selectedPaymentMethod] = _.filter(this.stripePaymentMethods.myPaymentMethods, {
+                    stripePaymentMethodId: this.membership.stripePaymentMethodId
+                });
+                if (selectedPaymentMethod) {
+                    this.checkoutForm.patchValue({ stripePaymentMethodId: selectedPaymentMethod.stripePaymentMethodId });
+                }
             }
             const [selectedPlan] = _.filter(this.latestPlans, {
                 planId: this.membership.plan.planId, versionNumber: this.membership.plan.versionNumber

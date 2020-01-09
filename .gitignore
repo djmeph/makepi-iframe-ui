@@ -48,3 +48,4 @@ Thumbs.db
 /config.ts
 /src/index.html
 /build
+/headers.js
