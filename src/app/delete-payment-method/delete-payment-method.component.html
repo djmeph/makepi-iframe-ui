@@ -1,0 +1,17 @@
+<div *ngIf="initializing" class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+</div>
+<div *ngIf="!initializing">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Delete Payment Method?</h5>
+            <p class="mb-2">
+                {{ stripePaymentMethod.source.bank_name }}{{ stripePaymentMethod.source.brand}} {{stripePaymentMethod.source.funding}} {{ stripePaymentMethod.source.last4 }}
+            </p>
+            <div class="btn-group">
+                <button (click)="ok()" type="button" class="btn btn-light">OK</button>
+                <button (click)="cancel()" type="button" class="btn btn-light">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

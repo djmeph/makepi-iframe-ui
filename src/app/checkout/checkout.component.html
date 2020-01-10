@@ -12,6 +12,7 @@
                         <a (click)="setPaymentMethod(stripePaymentMethod.stripePaymentMethodId)">
                             {{ stripePaymentMethod.source.bank_name }}{{ stripePaymentMethod.source.brand}} {{stripePaymentMethod.source.funding}} {{ stripePaymentMethod.source.last4 }}
                         </a>
+                        <button (click)="delete(stripePaymentMethod.stripePaymentMethodId)" type="button" class="btn btn-light float-right"><i class="fa fa-trash"></i></button>
                     </li>
                     <li class="list-group-item">
                         <input type="radio" formControlName="stripePaymentMethodId" value="cash" />

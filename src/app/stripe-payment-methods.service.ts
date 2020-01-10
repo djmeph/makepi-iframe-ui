@@ -32,4 +32,10 @@ export class StripePaymentMethodsService {
         .toPromise();
     }
 
+    public delete(key: string): Promise<any> {
+        return this.http
+        .delete(`${this.globalService.uri}/stripe-payment-methods/${key}`)
+        .toPromise();
+    }
+
 }

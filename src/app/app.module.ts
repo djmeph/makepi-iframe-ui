@@ -10,6 +10,7 @@ import { HttpInterceptorService } from './http-interceptor.service';
 import { DebitSourceComponent } from './debit-source/debit-source.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { MembershipInfoComponent } from './membership-info/membership-info.component';
+import { DeletePaymentMethodComponent } from './delete-payment-method/delete-payment-method.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { MembershipInfoComponent } from './membership-info/membership-info.compo
         CreditSourceComponent,
         DebitSourceComponent,
         CheckoutComponent,
-        MembershipInfoComponent
+        MembershipInfoComponent,
+        DeletePaymentMethodComponent
     ],
     imports: [
         BrowserModule,
