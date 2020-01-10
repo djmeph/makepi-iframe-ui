@@ -36,7 +36,10 @@
                 </div>
             </div>
         </div>
-        <button *ngIf="!loading" type="submit" [disabled]="creditSourceForm.invalid" class="btn btn-light">Save</button>
+        <div *ngIf="!loading" class="btn-group">
+            <button type="submit" [disabled]="creditSourceForm.invalid" class="btn btn-light">Save</button>
+            <a (click)="cancel()" *ngIf="!loading" class="btn btn-light">Cancel</a>
+        </div>
         <div *ngIf="loading" class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
         </div>

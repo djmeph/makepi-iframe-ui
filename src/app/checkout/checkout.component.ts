@@ -145,4 +145,8 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
     delete(id) {
         this.router.navigate([`/delete-payment-method/${id}`]);
     }
+
+    cancel() {
+        this.router.navigate(['/membership-info']);
+    }
 }
