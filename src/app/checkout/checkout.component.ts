@@ -105,6 +105,8 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
             if (this.membership.paymentDay) {
                 this.checkoutForm.patchValue({ paymentDay: this.membership.paymentDay });
             }
+        } else {
+            this.checkoutForm.patchValue({ paymentDay: 1 });
         }
     }
 

@@ -17,7 +17,7 @@ export class MembershipInfoComponent implements AfterViewInit, OnInit {
     constructor(
         private router: Router,
         private membershipInfoService: MembershipInfoService,
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.loading = true;
@@ -26,6 +26,7 @@ export class MembershipInfoComponent implements AfterViewInit, OnInit {
     async ngAfterViewInit() {
         this.loading = true;
         this.membership = await this.membershipInfoService.getMembershipInfo();
+        console.log(this.membership)
         this.loading = false;
     }
 
