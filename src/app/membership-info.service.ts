@@ -19,25 +19,21 @@ export class MembershipInfoService {
         let subscription: any;
         let plan: any;
         let stripePaymentMethod: any;
-        try {
-            subscription = await this.subscriptionsService.getLatest();
-            payload.versionNumber = subscription.versionNumber;
-            plan = await this.plansService.getPlan(subscription.plan.planId, subscription.plan.versionNumber);
-            if (subscription.stripePaymentMethodId !== 'cash') {
-                stripePaymentMethod = await this.stripePaymentMethodsService.get(subscription.stripePaymentMethodId);
-            } else {
-                stripePaymentMethod = {
-                    source: {
-                        funding: 'Cash/Check'
-                    }
-                };
-            }
-            payload.plan = plan;
-            payload.stripePaymentMethod = stripePaymentMethod;
-            payload.paymentDay = subscription.paymentDay;
-            return payload;
-        } catch (err) {
-            return null;
+        subscription = await this.subscriptionsService.getLatest();
+        payload.versionNumber = subscription.versionNumber;
+        plan = await this.plansService.getPlan(subscription.plan.planId, subscription.plan.versionNumber);
+        if (subscription.stripePaymentMethodId !== 'cash') {
+            stripePaymentMethod = await this.stripePaymentMethodsService.get(subscription.stripePaymentMethodId);
+        } else {
+            stripePaymentMethod = {
+                source: {
+                    funding: 'Cash/Check'
+                }
+            };
         }
+        payload.plan = plan;
+        payload.stripePaymentMethod = stripePaymentMethod;
+        payload.paymentDay = subscription.paymentDay;
+        return payload;
     }
 }

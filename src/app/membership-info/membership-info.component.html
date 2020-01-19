@@ -1,7 +1,7 @@
 <div *ngIf="loading" class="spinner-border" role="status">
     <span class="sr-only">Loading...</span>
 </div>
-<div *ngIf="!loading">
+<div *ngIf="!loading && state === AUTHORIZED">
     <div *ngIf="membership">
         <div class="card mb-1">
             <div class="card-body">
@@ -30,4 +30,10 @@
         </div>
     </div>
     <button (click)="switchTab(pages.checkout)" class="btn btn-light"><span *ngIf="!membership">Checkout</span><span *ngIf="membership">Edit</span></button>
+</div>
+<div *ngIf="state === UNAUTHORIZED" class="jumbotron">
+    <h1 class="display-4">Membership Status Required</h1>
+</div>
+<div *ngIf="state === ERROR" class="jumbotron">
+    <h1 class="display-4">Unknown Error</h1>
 </div>
