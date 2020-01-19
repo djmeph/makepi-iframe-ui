@@ -4,9 +4,10 @@ import { MembershipInfoService } from '../membership-info.service';
 import { Pages } from '../models/pages';
 
 export enum State {
-    authorized = 200,
-    unauthorized = 403,
-    error = 500,
+    AUTHORIZED = 200,
+    UNAUTHORIZED = 403,
+    ERROR = 500,
+    NOT_FOUND = 404,
 }
 
 @Component({
@@ -15,9 +16,10 @@ export enum State {
     styleUrls: ['./membership-info.component.scss']
 })
 export class MembershipInfoComponent implements AfterViewInit, OnInit {
-    AUTHORIZED = State.authorized;
-    UNAUTHORIZED = State.unauthorized;
-    ERROR = State.error;
+    AUTHORIZED = State.AUTHORIZED;
+    UNAUTHORIZED = State.UNAUTHORIZED;
+    ERROR = State.ERROR;
+    NOT_FOUND = State.NOT_FOUND;
 
     pages = Pages;
     membership: any;
@@ -38,15 +40,19 @@ export class MembershipInfoComponent implements AfterViewInit, OnInit {
         try {
             this.membership = await this.membershipInfoService.getMembershipInfo();
             this.loading = false;
-            this.state = State.authorized;
+            this.state = State.AUTHORIZED;
         } catch (err) {
             this.loading = false;
             switch (err.status) {
-                case State.unauthorized:
-                    this.state = State.unauthorized;
+                case State.UNAUTHORIZED:
+                    this.state = State.UNAUTHORIZED;
+                    break;
+                case State.NOT_FOUND:
+                    this.membership = null;
+                    this.state = State.NOT_FOUND;
                     break;
                 default:
-                    this.state = State.error;
+                    this.state = State.ERROR;
             }
         }
     }
