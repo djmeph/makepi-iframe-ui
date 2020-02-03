@@ -12,11 +12,11 @@ export class SubscriptionsService {
         private http: HttpClient,
     ) {}
 
-    public upsert(stripePaymentMethodId: string, planId: string, versionNumber: number, paymentDay: number) {
+    public upsert(paymentMethodKey: string, planId: string, versionNumber: number, paymentDay: number) {
         return this.http
         .post(`${this.globalService.uri}/subscriptions`, {
             plan: { planId, versionNumber },
-            stripePaymentMethodId,
+            paymentMethodKey,
             paymentDay
         })
         .toPromise();

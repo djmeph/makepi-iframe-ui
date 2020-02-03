@@ -8,7 +8,7 @@ import { Pages } from '../models/pages';
 import * as _ from 'lodash';
 
 interface CheckoutStatus {
-    stripePaymentMethodId: any;
+    paymentMethodKey: any;
     planId: any;
     versionNumber: any;
     paymentDay: any;
@@ -29,7 +29,7 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
     checkoutStatus = {} as CheckoutStatus;
 
     checkoutForm = new FormGroup({
-        stripePaymentMethodId: new FormControl(this.checkoutStatus.stripePaymentMethodId, [
+        paymentMethodKey: new FormControl(this.checkoutStatus.paymentMethodKey, [
             Validators.required,
         ]),
         planId: new FormControl(this.checkoutStatus.planId, [
@@ -85,14 +85,14 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         }
 
         if (this.membership) {
-            if (this.membership.stripePaymentMethodId === 'cash') {
-                this.checkoutForm.patchValue({ stripePaymentMethodId: 'cash' });
+            if (this.membership.paymentMethodKey === 'cash') {
+                this.checkoutForm.patchValue({ paymentMethodKey: 'cash' });
             } else {
                 const [selectedPaymentMethod] = _.filter(this.stripePaymentMethods.myPaymentMethods, {
-                    stripePaymentMethodId: this.membership.stripePaymentMethodId
+                    paymentMethodKey: this.membership.paymentMethodKey
                 });
                 if (selectedPaymentMethod) {
-                    this.checkoutForm.patchValue({ stripePaymentMethodId: selectedPaymentMethod.stripePaymentMethodId });
+                    this.checkoutForm.patchValue({ paymentMethodKey: selectedPaymentMethod.paymentMethodKey });
                 }
             }
             const [selectedPlan] = _.filter(this.latestPlans, {
@@ -114,9 +114,9 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         this.router.navigate([view]);
     }
 
-    setPaymentMethod(stripePaymentMethodId: string) {
-        if (this.checkoutForm.get('stripePaymentMethodId').value === stripePaymentMethodId) { return; }
-        this.checkoutForm.patchValue({ stripePaymentMethodId });
+    setPaymentMethod(paymentMethodKey: string) {
+        if (this.checkoutForm.get('paymentMethodKey').value === paymentMethodKey) { return; }
+        this.checkoutForm.patchValue({ paymentMethodKey });
     }
 
     setPlan(planId: string, versionNumber: number) {
@@ -128,12 +128,12 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
     async checkout() {
         if (this.loading) { return; }
         this.loading = true;
-        const { value: stripePaymentMethodId } = this.checkoutForm.get('stripePaymentMethodId');
+        const { value: paymentMethodKey } = this.checkoutForm.get('paymentMethodKey');
         const { value: planId } = this.checkoutForm.get('planId');
         const { value: versionNumber } = this.checkoutForm.get('versionNumber');
         const { value: paymentDay } = this.checkoutForm.get('paymentDay');
         try {
-            await this.subscriptionsService.upsert(stripePaymentMethodId, planId, versionNumber, paymentDay);
+            await this.subscriptionsService.upsert(paymentMethodKey, planId, versionNumber, paymentDay);
             this.router.navigate(['/membership-info']);
             this.loading = false;
         } catch (err) {

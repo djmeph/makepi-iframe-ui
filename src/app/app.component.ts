@@ -27,9 +27,15 @@ export class AppComponent {
         let data;
         try {
             data = event.data === 'string' ? JSON.parse(event.data) : event.data;
-            if (data.token) { this.userService.jwtToken = data.token; }
-            if (data.route) { this.router.navigate([data.route]); }
-        } catch (err) {}
+            if (data.token) {
+                this.userService.jwtToken = data.token;
+            }
+            if (data.route) {
+                this.router.navigate([data.route]);
+            }
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     /**
