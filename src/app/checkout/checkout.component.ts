@@ -89,10 +89,10 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
                 this.checkoutForm.patchValue({ paymentMethodKey: 'cash' });
             } else {
                 const [selectedPaymentMethod] = _.filter(this.stripePaymentMethods.myPaymentMethods, {
-                    paymentMethodKey: this.membership.paymentMethodKey
+                    itemKey: this.membership.paymentMethodKey
                 });
                 if (selectedPaymentMethod) {
-                    this.checkoutForm.patchValue({ paymentMethodKey: selectedPaymentMethod.paymentMethodKey });
+                    this.checkoutForm.patchValue({ paymentMethodKey: selectedPaymentMethod.itemKey });
                 }
             }
             const [selectedPlan] = _.filter(this.latestPlans, {

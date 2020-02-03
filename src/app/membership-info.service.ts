@@ -32,7 +32,7 @@ export class MembershipInfoService {
             };
         }
         payload.plan = plan;
-        payload.stripePaymentMethod = paymentMethod;
+        payload.paymentMethod = paymentMethod;
         payload.paymentDay = subscription.paymentDay;
         return payload;
     }
