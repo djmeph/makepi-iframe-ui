@@ -41,6 +41,7 @@ export class MembershipInfoComponent implements AfterViewInit, OnInit {
         this.loading = true;
         try {
             this.membership = await this.membershipInfoService.getMembershipInfo();
+            console.log(this.membership)
             this.loading = false;
             this.state = State.AUTHORIZED;
         } catch (err) {

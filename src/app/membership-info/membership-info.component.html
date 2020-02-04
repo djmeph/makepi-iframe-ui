@@ -5,21 +5,41 @@
     <div *ngIf="membership">
         <div class="card mb-1">
             <div class="card-body">
-                <h5 class="card-title">Payment Method</h5>
-                {{ membership.paymentMethod.source.bank_name }}{{ membership.paymentMethod.source.brand }} {{ membership.paymentMethod.source.funding }} {{ membership.paymentMethod.source.last4 }}
+                <h5 class="card-title">
+                    Membership
+                    <button (click)="switchTab(pages.checkout)" class="btn btn-light">
+                        <span *ngIf="!membership"><i class="fas fa-shopping-cart"></i>&nbsp;Checkout</span>
+                        <span *ngIf="membership"><i class="fa fa-edit"></i>&nbsp;Edit</span>
+                    </button>
+                </h5>
+                <p>
+                    Payment Method: {{ membership.paymentMethod.source.bank_name }}{{ membership.paymentMethod.source.brand }} {{ membership.paymentMethod.source.funding }} {{ membership.paymentMethod.source.last4 }}<br />
+                    Membership Plan: {{ membership.plan.name }}<br />
+                    Billing Day of Month: {{ membership.paymentDay }}
+                </p>
+
             </div>
         </div>
-        <div class="card mb-1">
+
+        <div *ngIf="membership.unpaidSchedules.length" class="card mb-1">
             <div class="card-body">
-                <h5 class="card-title">Membership Plan</h5>
-                {{ membership.plan.name }}
+                <h5 class="card-title">Scheduled Payments</h5>
             </div>
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let unpaidSchedule of membership.unpaidSchedules">
+                    <strong>{{ unpaidSchedule.total | currency }}</strong> {{ unpaidSchedule.paymentDate | date }}
+                </li>
+            </ul>
         </div>
-        <div class="card mb-1">
+        <div *ngIf="membership.paidSchedules.length" class="card mb-1">
             <div class="card-body">
-                <h5 class="card-title">Billing Day of Month</h5>
-                {{ membership.paymentDay }}
+                <h5 class="card-title">Payment History</h5>
             </div>
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let paidSchedule of membership.paidSchedules">
+                    <strong>{{ paidSchedules.total | currency }}</strong> {{ paidSchedules.paymentDate | date }}
+                </li>
+            </ul>
         </div>
     </div>
     <div *ngIf="!membership" class="mb-1">
@@ -29,7 +49,7 @@
             </div>
         </div>
     </div>
-    <button (click)="switchTab(pages.checkout)" class="btn btn-light"><span *ngIf="!membership">Checkout</span><span *ngIf="membership">Edit</span></button>
+
 </div>
 <div *ngIf="state === UNAUTHORIZED" class="jumbotron">
     <h1 class="display-4">Membership Status Required</h1>
