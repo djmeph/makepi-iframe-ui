@@ -37,7 +37,7 @@
             </div>
             <ul class="list-group">
                 <li class="list-group-item" *ngFor="let paidSchedule of membership.paidSchedules">
-                    <strong>{{ paidSchedules.total | currency }}</strong> {{ paidSchedules.paymentDate | date }}
+                    <strong>{{ paidSchedule.total | currency }}</strong> {{ paidSchedule.paymentDate | date }}
                 </li>
             </ul>
         </div>
