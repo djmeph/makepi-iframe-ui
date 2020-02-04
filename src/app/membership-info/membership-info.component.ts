@@ -30,7 +30,10 @@ export class MembershipInfoComponent implements AfterViewInit, OnInit {
         private router: Router,
         private membershipInfoService: MembershipInfoService,
     ) {
-        console.log('constructor');
+        this.membership = {
+            unpaidSchedules: [],
+            paidSchedules: [],
+        };
     }
 
     ngOnInit() {
@@ -41,7 +44,6 @@ export class MembershipInfoComponent implements AfterViewInit, OnInit {
         this.loading = true;
         try {
             this.membership = await this.membershipInfoService.getMembershipInfo();
-            console.log(this.membership)
             this.loading = false;
             this.state = State.AUTHORIZED;
         } catch (err) {
