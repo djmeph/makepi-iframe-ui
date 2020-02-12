@@ -8,8 +8,7 @@
                 <h5 class="card-title">
                     Membership
                     <button (click)="switchTab(pages.checkout)" class="btn btn-light">
-                        <span *ngIf="!membership"><i class="fas fa-shopping-cart"></i>&nbsp;Checkout</span>
-                        <span *ngIf="membership"><i class="fa fa-edit"></i>&nbsp;Edit</span>
+                        <span><i class="fa fa-edit"></i>&nbsp;Edit</span>
                     </button>
                 </h5>
                 <p>
@@ -46,6 +45,9 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">No Membership Selected</h5>
+                <button (click)="switchTab(pages.checkout)" class="btn btn-light">
+                    <span><i class="fas fa-cart"></i>&nbsp;Checkout</span>
+                </button>
             </div>
         </div>
     </div>
