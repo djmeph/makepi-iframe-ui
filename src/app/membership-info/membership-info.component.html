@@ -7,9 +7,15 @@
             <div class="card-body">
                 <h5 class="card-title">
                     Membership
-                    <button (click)="switchTab(pages.checkout)" class="btn btn-light">
-                        <span><i class="fa fa-edit"></i>&nbsp;Edit</span>
-                    </button>
+                    <div class="btn-group">
+                        <button (click)="switchTab(pages.checkout)" class="btn btn-light">
+                            <span><i class="fa fa-edit"></i>&nbsp;Edit</span>
+                        </button>
+                        <button (click)="switchTab(pages.cancelMembership)" class="btn btn-light">
+                            <span><i class="fa fa-stop-circle"></i>&nbsp;Cancel</span>
+                        </button>
+                    </div>
+
                 </h5>
                 <p *ngIf="membership.plan.name">
                     Payment Method: {{ membership.paymentMethod.source.bank_name }}{{ membership.paymentMethod.source.brand }} {{ membership.paymentMethod.source.funding }} {{ membership.paymentMethod.source.last4 }}<br />
