@@ -11,11 +11,12 @@
                         <span><i class="fa fa-edit"></i>&nbsp;Edit</span>
                     </button>
                 </h5>
-                <p>
+                <p *ngIf="membership.plan.name">
                     Payment Method: {{ membership.paymentMethod.source.bank_name }}{{ membership.paymentMethod.source.brand }} {{ membership.paymentMethod.source.funding }} {{ membership.paymentMethod.source.last4 }}<br />
-                    Membership Plan: {{ membership.plan.name }}<br />
+                    <span *ngIf="membership.plan">Membership Plan: {{ membership.plan.name }}<br /></span>
                     Billing Day of Month: {{ membership.paymentDay }}
                 </p>
+                <p *ngIf="!membership.plan.name">Cancelled</p>
 
             </div>
         </div>

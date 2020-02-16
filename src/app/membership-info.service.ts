@@ -27,15 +27,18 @@ export class MembershipInfoService {
         let cancelledSchedules: any;
         subscription = await this.subscriptionsService.getLatest();
         payload.versionNumber = subscription.versionNumber;
-        plan = await this.plansService.getPlan(subscription.plan.planId, subscription.plan.versionNumber);
-        if (subscription.paymentMethodKey !== 'cash') {
-            paymentMethod = await this.paymentMethodsService.get(subscription.paymentMethodKey);
-        } else {
+        plan = subscription.plan.planId === 'cancel' ? {} :
+            await this.plansService.getPlan(subscription.plan.planId, subscription.plan.versionNumber);
+        if (subscription.paymentMethodKey === null) {
+            paymentMethod = {};
+        } else if (subscription.paymentMethodKey === 'cash') {
             paymentMethod = {
                 source: {
                     funding: 'Cash/Check'
                 }
             };
+        } else {
+            paymentMethod = await this.paymentMethodsService.get(subscription.paymentMethodKey);
         }
         unpaidSchedules = await this.schedulesService.getByStatus(ScheduleStatuses.UNPAID);
         paidSchedules = await this.schedulesService.getByStatus(ScheduleStatuses.PAID);
