@@ -1,0 +1,26 @@
+<div class="jumbotron">
+    <h1 class="display-4">Checking Account Verification</h1>
+    <p class="lead">When you added your checking account information, Stripe used it to make two small deposits. For verification purposes, please enter the values of those two deposits in cents. They do not need to be in any particular order.</p>
+    <hr class="my-4">
+    <form [formGroup]="verifyForm" (ngSubmit)="!verifyForm.invalid && verify()">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">¢</span>
+            </div>
+            <input type="number" class="form-control" placeholder="Deposit 1" formControlName="deposit1" />
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">¢</span>
+            </div>
+            <input type="number" class="form-control" placeholder="Deposit 2" formControlName="deposit2" />
+        </div>
+        <div *ngIf="!verifying" class="btn-group">
+            <button type="submit" [disabled]="verifyForm.invalid" class="btn btn-light">Verify Amounts</button>
+            <a (click)="cancel()" *ngIf="!verifying" class="btn btn-light">Cancel</a>
+        </div>
+        <div *ngIf="verifying" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </form>
+</div>

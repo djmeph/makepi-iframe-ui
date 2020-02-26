@@ -12,6 +12,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { MembershipInfoComponent } from './membership-info/membership-info.component';
 import { DeletePaymentMethodComponent } from './delete-payment-method/delete-payment-method.component';
 import { CancelMembershipComponent } from './cancel-membership/cancel-membership.component';
+import { VerifyDepositsComponent } from './verify-deposits/verify-deposits.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { CancelMembershipComponent } from './cancel-membership/cancel-membership
         CheckoutComponent,
         MembershipInfoComponent,
         DeletePaymentMethodComponent,
-        CancelMembershipComponent
+        CancelMembershipComponent,
+        VerifyDepositsComponent
     ],
     imports: [
         BrowserModule,

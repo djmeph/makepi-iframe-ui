@@ -72,6 +72,7 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
 
         try {
             this.stripePaymentMethods.myPaymentMethods = await this.stripePaymentMethods.getAll();
+            console.log(this.stripePaymentMethods)
         } catch (err) {
             console.error(err);
         }
@@ -148,5 +149,9 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
 
     cancel() {
         this.router.navigate(['/membership-info']);
+    }
+
+    verify(stripePaymentMethodId: string) {
+        this.router.navigate([`/verify-deposits/${stripePaymentMethodId}`]);
     }
 }

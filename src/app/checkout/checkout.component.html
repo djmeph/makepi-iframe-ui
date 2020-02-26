@@ -7,12 +7,39 @@
             <div class="card-body">
                 <h5 class="card-title">Payment Method</h5>
                 <ul class="list-group">
-                    <li *ngFor="let stripePaymentMethod of stripePaymentMethods.myPaymentMethods" class="list-group-item">
-                        <input type="radio" formControlName="paymentMethodKey" value="{{stripePaymentMethod.itemKey}}" />
-                        <a (click)="setPaymentMethod(stripePaymentMethod.itemKey)">
+                    <li *ngFor="let stripePaymentMethod of stripePaymentMethods.myPaymentMethods" class="list-group-item" [ngClass]="{ 'list-group-item-danger': !stripePaymentMethod.verified }">
+                        <input
+                            (click)="stripePaymentMethod.verified && setPaymentMethod(stripePaymentMethod.itemKey)"
+                            type="radio"
+                            formControlName="paymentMethodKey"
+                            value="{{stripePaymentMethod.itemKey}}"
+                            [disabled]="!stripePaymentMethod.verified"
+                        />
+                        <a (click)="stripePaymentMethod.verified && setPaymentMethod(stripePaymentMethod.itemKey)">
                             {{ stripePaymentMethod.source.bank_name }}{{ stripePaymentMethod.source.brand}} {{stripePaymentMethod.source.funding}} {{ stripePaymentMethod.source.last4 }}
+                            <span *ngIf="!stripePaymentMethod.verified">**unverified** </span>
                         </a>
-                        <button (click)="delete(stripePaymentMethod.stripePaymentMethodId)" type="button" class="btn btn-light float-right"><i class="fa fa-trash"></i></button>
+                        <div class="btn-group float-right">
+                            <button
+                                *ngIf="!stripePaymentMethod.verified"
+                                (click)="verify(stripePaymentMethod.stripePaymentMethodId)"
+                                type="button"
+                                class="btn"
+                                [ngClass]="{ 'btn-light' : stripePaymentMethod.verified, 'btn-danger': !stripePaymentMethod.verified }"
+                                title="Verify"
+                            >
+                            <i class="fa fa-check-square"></i>
+                            </button>
+                            <button
+                                (click)="delete(stripePaymentMethod.stripePaymentMethodId)"
+                                type="button"
+                                class="btn btn-light"
+                                [ngClass]="{ 'btn-light' : stripePaymentMethod.verified, 'btn-danger': !stripePaymentMethod.verified }"
+                                title="Delete"
+                            >
+                            <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
                     </li>
                     <li class="list-group-item">
                         <input type="radio" formControlName="paymentMethodKey" value="cash" />

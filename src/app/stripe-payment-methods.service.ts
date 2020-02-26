@@ -38,4 +38,10 @@ export class StripePaymentMethodsService {
         .toPromise();
     }
 
+    public verify(key: string, amounts: number[]) {
+        return this.http
+        .post(`${this.globalService.uri}/stripe-payment-method-verify/${key}`, { amounts })
+        .toPromise();
+    }
+
 }
