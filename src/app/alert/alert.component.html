@@ -1,0 +1,18 @@
+<div class="alert alert-dismissible fade" role="alert"
+[ngClass]="{
+    'show': alertService.show,
+    'fade': alertService.fade,
+    'alert-primary': alertService.type === alerts.PRIMARY,
+    'alert-secondary': alertService.type === alerts.SECONDARY,
+    'alert-success': alertService.type === alerts.SUCCESS,
+    'alert-danger': alertService.type === alerts.DANGER,
+    'alert-warning': alertService.type === alerts.WARNING,
+    'alert-info': alertService.type === alerts.INFO,
+    'alert-light': alertService.type === alerts.LIGHT,
+    'alert-dark': alertService.type === alerts.DARK
+}">
+<strong>{{alertService.bold}}</strong> {{alertService.light}}
+<button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button>
+</div>

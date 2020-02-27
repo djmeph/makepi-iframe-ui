@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
 import { PlansService } from '../plans.service';
 import { SubscriptionsService } from '../subscriptions.service';
+import { Alerts, AlertService } from '../alert.service';
 import { Pages } from '../models/pages';
 import * as _ from 'lodash';
 
@@ -53,6 +54,7 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         private plans: PlansService,
         private subscriptionsService: SubscriptionsService,
         private router: Router,
+        private alertService: AlertService,
     ) {}
 
     ngOnInit() {
@@ -67,21 +69,20 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
         try {
             this.membership = await this.subscriptionsService.getLatest();
         } catch (err) {
-            console.error(err);
+            this.alertService.openAlert('', err.error.message, Alerts.DANGER);
         }
 
         try {
             this.stripePaymentMethods.myPaymentMethods = await this.stripePaymentMethods.getAll();
-            console.log(this.stripePaymentMethods)
         } catch (err) {
-            console.error(err);
+            this.alertService.openAlert('', err.error.message, Alerts.DANGER);
         }
 
         try {
             this.latestPlans = await this.plans.plansLatestGet() as any;
             this.initializing = false;
         } catch (err) {
-            console.error(err);
+            this.alertService.openAlert('', err.error.message, Alerts.DANGER);
             this.initializing = false;
         }
 
@@ -138,8 +139,8 @@ export class CheckoutComponent implements AfterViewInit, OnInit {
             this.router.navigate(['/membership-info']);
             this.loading = false;
         } catch (err) {
-            console.error(err);
             this.loading = false;
+            this.alertService.openAlert('', err.error.message, Alerts.DANGER);
         }
     }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
+import { AlertService, Alerts } from '../alert.service';
 
 @Component({
     selector: 'app-verify-deposits',
@@ -35,6 +36,7 @@ export class VerifyDepositsComponent implements OnInit {
         private stripePaymentMethodsService: StripePaymentMethodsService,
         private route: ActivatedRoute,
         private router: Router,
+        private alertService: AlertService,
     ) {
         this.stripePaymentMethodId = this.route.snapshot.params.stripePaymentMethodId;
         this.verified = false;
@@ -63,7 +65,7 @@ export class VerifyDepositsComponent implements OnInit {
             this.router.navigate(['/checkout']);
         } catch (err) {
             this.verifying = false;
-            console.error(err);
+            this.alertService.openAlert('', err.error.message, Alerts.DANGER);
         }
 
     }

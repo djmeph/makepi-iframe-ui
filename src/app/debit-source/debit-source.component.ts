@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'config';
 import { StripePaymentMethodsService } from '../stripe-payment-methods.service';
+import { Alerts, AlertService } from '../alert.service';
 import { countries } from '../countries';
 import { Pages } from '../models/pages';
 
@@ -73,6 +74,7 @@ export class DebitSourceComponent implements AfterViewInit, OnInit {
     constructor(
         private stripePaymentMethodsService: StripePaymentMethodsService,
         private router: Router,
+        private alertService: AlertService,
     ) {
         this.debitSourceForm.patchValue({
             currency: 'usd',
@@ -114,7 +116,7 @@ export class DebitSourceComponent implements AfterViewInit, OnInit {
             this.router.navigate(['/checkout']);
         } catch (err) {
             this.loading = false;
-            console.error(err);
+            this.alertService.openAlert('', err.error.message, Alerts.DANGER);
         }
     }
 
